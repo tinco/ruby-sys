@@ -18,7 +18,7 @@ pub fn closure_box_ptr_create<F,R>(func: F) -> *mut c_void
 pub fn block_box_ptr_create<F>(func: F) -> *mut c_void
     where F: FnMut(Value, Argc, *const Value, Value) -> Value,
 {
-    let closure_box = Box::new(func) as Box<F>;
+    let closure_box = Box::new(func) as Box<FnMut(Value, Argc, *const Value, Value) -> Value>;
     Box::into_raw(Box::new(closure_box)) as *mut c_void
 }
 
