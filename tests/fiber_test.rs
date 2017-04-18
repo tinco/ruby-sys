@@ -12,9 +12,9 @@ fn rb_creating_and_running_fibers_works() {
             let test_fn_box = util::block_box_ptr_create(test_fn);
             let fiber = fiber::rb_fiber_new(util::rbsys_block_box_ptr_value, test_fn_box);
             let result = fiber::rb_fiber_resume(fiber, 0, vec![].as_ptr());
-            //assert!(!result.is_nil());
-            //let val_result = fixnum::rb_num2int(result);
-            //assert!(3 == val_result);
+            assert!(!result.is_nil());
+            let val_result = fixnum::rb_num2int(result);
+            assert!(3 == val_result);
         }
     };
 
