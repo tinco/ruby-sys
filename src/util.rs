@@ -15,6 +15,13 @@ pub fn closure_box_ptr_create<F,R>(func: F) -> *mut c_void
     Box::into_raw(Box::new(closure_box)) as *mut c_void
 }
 
+pub fn block_box_ptr_create<F>(func: F) -> *mut c_void
+    where F: FnMut(Value, Argc, *const Value, Value) -> Value,
+{
+    let closure_box = Box::new(func) as Box<F>;
+    Box::into_raw(Box::new(closure_box)) as *mut c_void
+}
+
 // This function is used to unwrap a closure_box returned by closure_box_ptr_create
 // and execute its wrapped closure, returning a Value.
 pub extern "C" fn rbsys_closure_box_ptr_value(box_ptr: *mut c_void) -> Value
@@ -22,6 +29,13 @@ pub extern "C" fn rbsys_closure_box_ptr_value(box_ptr: *mut c_void) -> Value
     type FnBox = Box<FnMut() -> Value>;
     let mut closure_box: Box<FnBox> = unsafe { Box::from_raw(box_ptr as *mut FnBox) };
     closure_box()
+}
+
+pub extern "C" fn rbsys_block_box_ptr_value(arg: Value, box_ptr: *mut c_void, argc: Argc, argv: *const Value, blockarg: Value) -> Value
+{
+    type FnBox = Box<FnMut(Value, Argc, *const Value, Value) -> Value>;
+    let mut closure_box: Box<FnBox> = unsafe { Box::from_raw(box_ptr as *mut FnBox) };
+    closure_box(arg, argc, argv, blockarg)
 }
 
 // This function is used to unwrap a closure_box returned by closure_box_ptr_create
