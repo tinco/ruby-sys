@@ -5,4 +5,5 @@ extern "C" {
                             data: *mut c_void) -> Value;
     pub fn rb_fiber_resume(fiber: Value, argc: Argc, argv: *const Value) -> Value;
     pub fn rb_fiber_yield(argc: Argc, argv: *const Value) -> Value;
+    pub fn rb_fiber_current() -> Value;
 }
