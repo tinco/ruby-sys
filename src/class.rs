@@ -15,6 +15,8 @@ extern "C" {
     pub fn rb_include_module(klass: Value, module: Value);
     pub fn rb_ivar_get(object: Value, name: Id) -> Value;
     pub fn rb_ivar_set(object: Value, name: Id, value: Value) -> Value;
+    pub fn rb_cvar_get(object: Value, name: Id) -> Value;
+    pub fn rb_cvar_set(object: Value, name: Id, value: Value) -> Value;
     pub fn rb_mod_ancestors(module: Value) -> Value;
     pub fn rb_obj_class(object: Value) -> Value;
     pub fn rb_obj_freeze(object: Value) -> Value;
